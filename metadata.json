@@ -1,0 +1,6 @@
+{
+  "name": "Nexus Quant - Roboți de Tranzacționare Algoritmică",
+  "description": "Platformă profesională pentru achiziția și utilizarea roboților de tranzacționare automată cu algoritmi avansați și performanță verificată în timp real.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

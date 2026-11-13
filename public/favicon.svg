@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="nexusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Background Badge -->
+  <rect width="100" height="100" rx="24" fill="#070a12" />
+  <rect x="2" y="2" width="96" height="96" rx="22" stroke="url(#nexusGrad)" stroke-width="3" stroke-opacity="0.8" />
+  
+  <!-- Candlestick Graphic -->
+  <line x1="28" y1="26" x2="28" y2="74" stroke="#06b6d4" stroke-width="2.5" opacity="0.6" />
+  <rect x="23" y="38" width="10" height="24" rx="2" fill="#06b6d4" opacity="0.8" />
+  
+  <line x1="50" y1="18" x2="50" y2="82" stroke="#38bdf8" stroke-width="3" filter="url(#glow)" />
+  <rect x="44" y="28" width="12" height="36" rx="3" fill="url(#nexusGrad)" filter="url(#glow)" />
+  
+  <line x1="72" y1="32" x2="72" y2="68" stroke="#10b981" stroke-width="2.5" opacity="0.6" />
+  <rect x="67" y="42" width="10" height="16" rx="2" fill="#10b981" opacity="0.9" />
+
+  <!-- Upward Trend Line -->
+  <path d="M20 70 L46 44 L58 52 L82 24" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+  <polygon points="82,24 72,25 79,32" fill="#38bdf8" />
+</svg>

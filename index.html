@@ -48,7 +48,9 @@
     <div id="root"></div>
 
     <!-- Netlify Forms detection skeletons for Free 7-Day Demo & Checkout -->
-    <form name="demo-7-days" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <form name="demo-7-days" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="demo-7-days" />
+      <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="text" name="botName" />
@@ -57,7 +59,9 @@
       <input type="text" name="submittedAt" />
     </form>
 
-    <form name="checkout-orders" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <form name="checkout-orders" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="checkout-orders" />
+      <input type="text" name="bot-field" />
       <input type="text" name="orderRef" />
       <input type="text" name="customerName" />
       <input type="email" name="customerEmail" />

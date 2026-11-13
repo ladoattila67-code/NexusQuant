@@ -6,9 +6,11 @@ import {
 } from 'lucide-react';
 import { PaymentConfig, TradingBot } from '../types';
 import {
+  DemoLeadRecord,
   getPaymentConfig,
   savePaymentConfig,
   getPaymentChannelStatus,
+  getSavedDemoLeads,
   getSavedOrders,
   updateOrderStatus,
   OrderRecord
@@ -50,6 +52,7 @@ export const AdminPortalModal: React.FC<AdminPortalModalProps> = ({
   const [isSavedNotice, setIsSavedNotice] = useState<boolean>(false);
   const [exportedPublishConfig, setExportedPublishConfig] = useState<boolean>(false);
   const [orders, setOrders] = useState<OrderRecord[]>([]);
+  const [demoLeads, setDemoLeads] = useState<DemoLeadRecord[]>([]);
   const [copiedLicenseFeedback, setCopiedLicenseFeedback] = useState<boolean>(false);
   const [showGumroadGuide, setShowGumroadGuide] = useState<boolean>(false);
   const [copiedGumroadField, setCopiedGumroadField] = useState<string>('');
@@ -110,6 +113,7 @@ export const AdminPortalModal: React.FC<AdminPortalModalProps> = ({
       setConfig(getPaymentConfig());
       setCustomBotsList(getCustomBots());
       setOrders(getSavedOrders());
+      setDemoLeads(getSavedDemoLeads());
     }
   }, [isOpen]);
 
@@ -911,6 +915,51 @@ Caracteristici Principale:
                     </div>
                   </div>
                 )}
+
+                {/* Demo 7-Day Leads Log + Email Notice */}
+                <div className="pt-4 border-t border-slate-800 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Cereri Demo Gratuit 7 Zile ({demoLeads.length})</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDemoLeads(getSavedDemoLeads())}
+                      className="text-[11px] text-cyan-400 hover:underline flex items-center gap-1 font-mono"
+                    >
+                      <RefreshCw className="w-3 h-3" /> Reîncarcă
+                    </button>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-800/50 text-[11px] text-cyan-200 leading-relaxed">
+                    <strong>Notificări automate pe Email ({config.sellerEmail}):</strong> În contul tău <strong>Netlify → Forms → Form notifications → Add notification → Email notification</strong>, adaugă <strong>{config.sellerEmail}</strong> pentru formularele <code className="text-amber-300">demo-7-days</code> și <code className="text-amber-300">checkout-orders</code>.
+                  </div>
+
+                  {demoLeads.length === 0 ? (
+                    <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px] text-slate-500 text-center">
+                      Nu există cereri Demo 7 Zile înregistrate local încă (toți vizitatorii externi ajung în Netlify Forms / Email).
+                    </div>
+                  ) : (
+                    <div className="space-y-2 max-h-44 overflow-y-auto">
+                      {demoLeads.map((lead) => (
+                        <div key={lead.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div>
+                            <div className="font-bold text-white">
+                              {lead.name} • <span className="text-cyan-400">{lead.botName}</span> <span className="text-slate-400 font-mono">({lead.platform})</span>
+                            </div>
+                            <div className="text-slate-400 font-mono text-[10px]">
+                              {lead.email} • {new Date(lead.createdAt).toLocaleString()}
+                            </div>
+                          </div>
+                          <code className="px-2 py-1 rounded bg-slate-900 text-emerald-400 border border-slate-800 font-mono text-[10px] shrink-0">
+                            {lead.demoKey}
+                          </code>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {/* Recent Checkout Orders Log */}
                 <div className="pt-4 border-t border-slate-800 space-y-2.5">

@@ -100,6 +100,55 @@ export const updateOrderStatus = (id: string, status: OrderRecord['status']): Or
   return updated;
 };
 
+export interface DemoLeadRecord {
+  id: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  botId: string;
+  botName: string;
+  platform: string;
+  demoKey: string;
+}
+
+export const getSavedDemoLeads = (): DemoLeadRecord[] => {
+  try {
+    const raw = localStorage.getItem('nexus_demo_leads');
+    if (raw) return JSON.parse(raw);
+  } catch {
+    // fallback
+  }
+  return [];
+};
+
+export const saveDemoLead = (lead: DemoLeadRecord): void => {
+  try {
+    const existing = getSavedDemoLeads();
+    localStorage.setItem('nexus_demo_leads', JSON.stringify([lead, ...existing].slice(0, 100)));
+  } catch {
+    // fallback
+  }
+};
+
+export const submitToNetlifyForm = (formName: string, fields: Record<string, string>): void => {
+  try {
+    const body = new URLSearchParams({
+      'form-name': formName,
+      ...fields,
+    }).toString();
+
+    void fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+    }).catch(() => {
+      // Non-blocking fallback when running outside Netlify production
+    });
+  } catch {
+    // safe fallback
+  }
+};
+
 export type PaymentMethodKey = 'gumroad' | 'crypto' | 'card' | 'revolut' | 'bank';
 export type CryptoCoinKey = 'usdc' | 'btc' | 'eth' | 'sol';
 

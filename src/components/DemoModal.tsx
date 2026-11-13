@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, Shield, Sparkles, Copy, Check, Download } from 'lucide-react';
 import { TRADING_BOTS } from '../data/tradingBots';
 import { ROBOT_SOURCE_CODES } from '../data/robotCodes';
+import { saveDemoLead, submitToNetlifyForm } from '../data/paymentConfig';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Language } from '../i18n/types';
 
@@ -217,6 +218,30 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, initialBo
 
     setErrorMsg('');
     const key = `DEMO-7D-${Math.random().toString(36).substring(2, 7).toUpperCase()}-NEXUS`;
+    const matchedBot = TRADING_BOTS.find((b) => b.id === selectedBotId);
+    const botLabel = matchedBot?.name || matchedSource.name;
+    const timestamp = new Date().toISOString();
+
+    saveDemoLead({
+      id: `${Date.now()}`,
+      createdAt: timestamp,
+      name: name.trim(),
+      email: email.trim(),
+      botId: selectedBotId,
+      botName: botLabel,
+      platform,
+      demoKey: key,
+    });
+
+    submitToNetlifyForm('demo-7-days', {
+      name: name.trim(),
+      email: email.trim(),
+      botName: botLabel,
+      platform,
+      demoKey: key,
+      submittedAt: timestamp,
+    });
+
     setDemoKey(key);
     setIsSuccess(true);
   };

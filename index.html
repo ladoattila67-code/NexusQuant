@@ -46,6 +46,31 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Netlify Forms detection skeletons for Free 7-Day Demo & Checkout -->
+    <form name="demo-7-days" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="botName" />
+      <input type="text" name="platform" />
+      <input type="text" name="demoKey" />
+      <input type="text" name="submittedAt" />
+    </form>
+
+    <form name="checkout-orders" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="orderRef" />
+      <input type="text" name="customerName" />
+      <input type="email" name="customerEmail" />
+      <input type="text" name="mtAccount" />
+      <input type="text" name="itemName" />
+      <input type="text" name="amountEur" />
+      <input type="text" name="paymentMethod" />
+      <input type="text" name="cryptoCoin" />
+      <input type="text" name="txid" />
+      <input type="text" name="licenseKey" />
+      <input type="text" name="submittedAt" />
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

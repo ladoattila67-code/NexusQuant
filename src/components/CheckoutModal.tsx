@@ -10,6 +10,7 @@ import {
   getPaymentConfig,
   PaymentMethodKey,
   saveOrderRecord,
+  submitToNetlifyForm,
 } from '../data/paymentConfig';
 import { ROBOT_SOURCE_CODES } from '../data/robotCodes';
 
@@ -128,10 +129,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     setOrderRef(ref);
     setGeneratedLicense(license);
 
+    const submittedAt = new Date().toISOString();
     saveOrderRecord({
       id: `${Date.now()}`,
       orderRef: ref,
-      createdAt: new Date().toISOString(),
+      createdAt: submittedAt,
       customerName: fullName.trim(),
       customerEmail: email.trim(),
       mtAccount: mtAccount.trim() || 'Nedefinit',
@@ -143,6 +145,20 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       txid: cryptoTxid.trim() || undefined,
       licenseKey: license,
       status: 'PENDING_CONFIRMATION',
+    });
+
+    submitToNetlifyForm('checkout-orders', {
+      orderRef: ref,
+      customerName: fullName.trim(),
+      customerEmail: email.trim(),
+      mtAccount: mtAccount.trim() || 'Nedefinit',
+      itemName,
+      amountEur: String(finalPrice),
+      paymentMethod,
+      cryptoCoin: paymentMethod === 'crypto' ? cryptoCoin.toUpperCase() : '',
+      txid: cryptoTxid.trim(),
+      licenseKey: license,
+      submittedAt,
     });
 
     setIsCompleted(true);
